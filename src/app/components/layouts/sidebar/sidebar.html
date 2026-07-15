@@ -69,15 +69,27 @@
         </a>
       </li>
       <li>
-        <a href="#" class="sidebar__enlace" (click)="$event.preventDefault()">
+        <a routerLink="/mis-reservas" routerLinkActive="sidebar__enlace--activo" class="sidebar__enlace" (click)="cerrar.emit()">
           <span class="sidebar__icono" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
             </svg>
           </span>
-          <span>Perfil</span>
+          <span>Mis reservas</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/libros" routerLinkActive="sidebar__enlace--activo" class="sidebar__enlace" (click)="cerrar.emit()">
+          <span class="sidebar__icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+              <path d="M9 7h6M9 11h4" />
+            </svg>
+          </span>
+          <span>Administrar libros</span>
         </a>
       </li>
     </ul>

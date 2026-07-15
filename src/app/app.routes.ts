@@ -26,6 +26,16 @@ export const routes: Routes = [
         loadComponent: () => import('./Landing/politicas/politicas').then((m) => m.Politicas),
         title: 'Biblioteca UTEQ | Políticas de Uso',
       },
+      {
+        path: 'admin/libros',
+        loadComponent: () => import('./features/admin/libros/libros').then((m) => m.LibrosAdmin),
+        title: 'Biblioteca UTEQ | Gestión de libros',
+      },
+      {
+        path: 'mis-reservas',
+        loadComponent: () => import('./features/reservas/mis-reservas/mis-reservas').then((m) => m.MisReservas),
+        title: 'Biblioteca UTEQ | Mis reservas',
+      },
     ],
   },
   {

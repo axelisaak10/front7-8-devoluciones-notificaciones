@@ -1,0 +1,139 @@
+.admin-libros {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  background: var(--blanco);
+  box-shadow: var(--sombra-sm);
+}
+
+.admin-libros__encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.admin-libros__eyebrow {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--azul-600);
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.admin-libros__encabezado h2 {
+  color: var(--tinta-900);
+  font-size: 1.4rem;
+}
+
+.admin-libros__boton {
+  padding: 0.7rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--azul-700), var(--azul-900));
+  color: var(--blanco);
+  font-weight: 600;
+}
+
+.admin-libros__boton--secundario {
+  background: var(--azul-50);
+  color: var(--azul-700);
+}
+
+.admin-libros__tabla-wrap {
+  overflow-x: auto;
+}
+
+.admin-libros__tabla {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin-libros__tabla th,
+.admin-libros__tabla td {
+  text-align: left;
+  padding: 0.9rem 0.7rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+.admin-libros__estado {
+  display: inline-flex;
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: var(--rojo-50);
+  color: var(--rojo-600);
+}
+
+.admin-libros__estado--disponible {
+  background: var(--verde-50);
+  color: var(--verde-700);
+}
+
+.admin-libros__acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-libros__accion {
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-libros__accion--editar {
+  background: var(--azul-50);
+  color: var(--azul-700);
+}
+
+.admin-libros__accion--eliminar {
+  background: var(--rojo-50);
+  color: var(--rojo-600);
+}
+
+.admin-libros__formulario {
+  display: grid;
+  gap: 1rem;
+  max-width: 640px;
+}
+
+.admin-libros__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.admin-libros__grupo label {
+  font-weight: 600;
+  color: var(--tinta-700);
+}
+
+.admin-libros__grupo input {
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--borde);
+  border-radius: 0.75rem;
+  background: var(--blanco);
+}
+
+.admin-libros__grupo--check label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-libros__botones {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 700px) {
+  .admin-libros__encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

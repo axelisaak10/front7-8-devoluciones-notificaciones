@@ -1,0 +1,30 @@
+<section class="mis-reservas">
+  <header class="mis-reservas__encabezado">
+    <div>
+      <p class="mis-reservas__eyebrow">Usuario</p>
+      <h2>Mis reservas</h2>
+    </div>
+  </header>
+
+  <div class="mis-reservas__filtros" role="tablist" aria-label="Filtrar reservas">
+    <button type="button" class="mis-reservas__filtro" [class.mis-reservas__filtro--activo]="filtro() === 'Todos'" (click)="cambiarFiltro('Todos')">Todos</button>
+    <button type="button" class="mis-reservas__filtro" [class.mis-reservas__filtro--activo]="filtro() === 'Activa'" (click)="cambiarFiltro('Activa')">Activas</button>
+    <button type="button" class="mis-reservas__filtro" [class.mis-reservas__filtro--activo]="filtro() === 'Pendiente'" (click)="cambiarFiltro('Pendiente')">Pendientes</button>
+    <button type="button" class="mis-reservas__filtro" [class.mis-reservas__filtro--activo]="filtro() === 'Cancelada'" (click)="cambiarFiltro('Cancelada')">Canceladas</button>
+  </div>
+
+  <div class="mis-reservas__lista">
+    @for (reserva of reservasFiltradas(); track reserva.id) {
+      <article class="mis-reservas__card">
+        <div class="mis-reservas__info">
+          <h3>{{ reserva.curso }}</h3>
+          <p><strong>Fecha:</strong> {{ reserva.fecha }}</p>
+          <p><strong>Lugar:</strong> {{ reserva.lugar }}</p>
+        </div>
+        <span class="mis-reservas__estado" [class.mis-reservas__estado--activa]="reserva.estado === 'Activa'" [class.mis-reservas__estado--pendiente]="reserva.estado === 'Pendiente'" [class.mis-reservas__estado--cancelada]="reserva.estado === 'Cancelada'">
+          {{ reserva.estado }}
+        </span>
+      </article>
+    }
+  </div>
+</section>

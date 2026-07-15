@@ -1,0 +1,81 @@
+<section class="admin-libros">
+  <header class="admin-libros__encabezado">
+    <div>
+      <p class="admin-libros__eyebrow">Panel de administración</p>
+      <h2>Gestión de libros</h2>
+    </div>
+    @if (modo() === 'lista') {
+      <button type="button" class="admin-libros__boton" (click)="abrirFormulario(true)">
+        + Nuevo libro
+      </button>
+    }
+  </header>
+
+  @if (modo() === 'lista') {
+    <div class="admin-libros__tabla-wrap">
+      <table class="admin-libros__tabla">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (libro of libros(); track libro.id) {
+            <tr>
+              <td>{{ libro.titulo }}</td>
+              <td>{{ libro.autor }}</td>
+              <td>{{ libro.categoria }}</td>
+              <td>
+                <span class="admin-libros__estado" [class.admin-libros__estado--disponible]="libro.disponible">
+                  {{ libro.disponible ? 'Disponible' : 'Prestado' }}
+                </span>
+              </td>
+              <td>
+                <div class="admin-libros__acciones">
+                  <button type="button" class="admin-libros__accion admin-libros__accion--editar" (click)="editarLibro(libro)">
+                    Editar
+                  </button>
+                  <button type="button" class="admin-libros__accion admin-libros__accion--eliminar" (click)="eliminarLibro(libro.id)">
+                    Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <form class="admin-libros__formulario" (ngSubmit)="guardarLibro()">
+      <div class="admin-libros__grupo">
+        <label for="titulo">Título</label>
+        <input id="titulo" name="titulo" [(ngModel)]="formulario.titulo" required />
+      </div>
+      <div class="admin-libros__grupo">
+        <label for="autor">Autor</label>
+        <input id="autor" name="autor" [(ngModel)]="formulario.autor" required />
+      </div>
+      <div class="admin-libros__grupo">
+        <label for="categoria">Categoría</label>
+        <input id="categoria" name="categoria" [(ngModel)]="formulario.categoria" required />
+      </div>
+      <div class="admin-libros__grupo admin-libros__grupo--check">
+        <label for="disponible">
+          <input id="disponible" name="disponible" type="checkbox" [(ngModel)]="formulario.disponible" />
+          Disponible
+        </label>
+      </div>
+
+      <div class="admin-libros__botones">
+        <button type="submit" class="admin-libros__boton">Guardar</button>
+        <button type="button" class="admin-libros__boton admin-libros__boton--secundario" (click)="volverALista()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  }
+</section>
