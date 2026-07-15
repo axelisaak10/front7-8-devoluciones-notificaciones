@@ -43,5 +43,40 @@ export const routes: Routes = [
     loadComponent: () => import('./features/home/home').then((m) => m.Home),
     title: 'Biblioteca UTEQ | Mi Biblioteca',
   },
+  {
+    // EPIC05 — Administración de préstamos (solo bibliotecario)
+    path: 'bibliotecario/prestamos',
+    loadComponent: () =>
+      import('./features/prestamos/panel-prestamos/panel-prestamos').then(
+        (m) => m.PanelPrestamos,
+      ),
+    children: [
+      { path: '', redirectTo: 'registrar', pathMatch: 'full' },
+      {
+        path: 'registrar',
+        loadComponent: () =>
+          import('./features/prestamos/registrar-prestamo/registrar-prestamo').then(
+            (m) => m.RegistrarPrestamo,
+          ),
+        title: 'Biblioteca UTEQ | Registrar préstamo',
+      },
+      {
+        path: 'activos',
+        loadComponent: () =>
+          import('./features/prestamos/prestamos-activos/prestamos-activos').then(
+            (m) => m.PrestamosActivos,
+          ),
+        title: 'Biblioteca UTEQ | Préstamos activos',
+      },
+      {
+        path: 'historial',
+        loadComponent: () =>
+          import('./features/prestamos/historial-prestamos/historial-prestamos').then(
+            (m) => m.HistorialPrestamos,
+          ),
+        title: 'Biblioteca UTEQ | Historial de préstamos',
+      },
+    ],
+  },
   { path: '**', redirectTo: '' },
 ];
