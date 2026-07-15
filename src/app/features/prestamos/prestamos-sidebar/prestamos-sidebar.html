@@ -1,4 +1,3 @@
-<!-- Telón de fondo -->
 <div
   class="telon"
   [class.telon--visible]="abierto()"
@@ -6,12 +5,7 @@
   aria-hidden="true"
 ></div>
 
-<!-- Menú lateral deslizante -->
-<aside
-  class="sidebar"
-  [class.sidebar--abierta]="abierto()"
-  aria-label="Menú del panel"
->
+<aside class="sidebar" [class.sidebar--abierta]="abierto()" aria-label="Menú del panel de préstamos">
   <header class="sidebar__cabecera">
     <div class="sidebar__marca">
       <span aria-hidden="true">
@@ -24,12 +18,7 @@
       </span>
       <strong>Biblioteca UTEQ</strong>
     </div>
-    <button
-      type="button"
-      class="sidebar__cerrar"
-      (click)="cerrar.emit()"
-      aria-label="Cerrar el menú"
-    >
+    <button type="button" class="sidebar__cerrar" (click)="cerrar.emit()" aria-label="Cerrar el menú">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M18 6L6 18M6 6l12 12" />
@@ -37,39 +26,41 @@
     </button>
   </header>
 
-  <!-- Usuario -->
   <div class="sidebar__usuario">
     <span class="sidebar__avatar" aria-hidden="true">{{ iniciales() }}</span>
     <div class="sidebar__datos">
-      <strong>{{ usuario()?.nombre ?? 'Invitado' }}</strong>
+      <strong>{{ usuario()?.nombre ?? 'Bibliotecario' }}</strong>
       <small>{{ usuario()?.correo ?? '' }}</small>
     </div>
   </div>
 
-  <span class="sidebar__titulo">Menú</span>
+  <span class="sidebar__titulo">Préstamos</span>
 
   <nav class="sidebar__navegacion">
     <ul class="sidebar__lista">
       <li>
         <a
-          href="#"
-          class="sidebar__enlace sidebar__enlace--activo"
-          (click)="$event.preventDefault()"
-          aria-current="page"
+          routerLink="/bibliotecario/prestamos/registrar"
+          routerLinkActive="sidebar__enlace--activo"
+          class="sidebar__enlace"
+          (click)="cerrar.emit()"
         >
           <span class="sidebar__icono" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-              <path d="M9 7h6M9 11h4" />
+              <path d="M12 5v14M5 12h14" />
             </svg>
           </span>
-          <span>Préstamos de libro</span>
+          <span>Registrar préstamo</span>
         </a>
       </li>
       <li>
-        <a href="#" class="sidebar__enlace" (click)="$event.preventDefault()">
+        <a
+          routerLink="/bibliotecario/prestamos/activos"
+          routerLinkActive="sidebar__enlace--activo"
+          class="sidebar__enlace"
+          (click)="cerrar.emit()"
+        >
           <span class="sidebar__icono" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
@@ -77,24 +68,24 @@
               <circle cx="12" cy="7" r="4" />
             </svg>
           </span>
-          <span>Perfil</span>
+          <span>Préstamos activos</span>
         </a>
       </li>
-    </ul>
-
-    <span class="sidebar__titulo">Personal</span>
-    <ul class="sidebar__lista">
       <li>
-        <a routerLink="/bibliotecario/prestamos/registrar" class="sidebar__enlace" (click)="cerrar.emit()">
+        <a
+          routerLink="/bibliotecario/prestamos/historial"
+          routerLinkActive="sidebar__enlace--activo"
+          class="sidebar__enlace"
+          (click)="cerrar.emit()"
+        >
           <span class="sidebar__icono" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-              <circle cx="12" cy="7" r="4" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Panel de bibliotecario</span>
+          <span>Historial de préstamos</span>
         </a>
       </li>
     </ul>

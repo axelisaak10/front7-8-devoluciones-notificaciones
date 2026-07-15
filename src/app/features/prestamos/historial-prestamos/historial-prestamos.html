@@ -1,0 +1,95 @@
+<section class="bloque aparecer" aria-label="Historial completo de préstamos">
+  <header class="bloque__cabecera">
+    <h1>Historial de préstamos</h1>
+    <span class="etiqueta">PR03</span>
+  </header>
+  <p class="bloque__descripcion">
+    Trazabilidad de todos los movimientos de la biblioteca. Filtra por usuario o por rango de
+    fechas.
+  </p>
+
+  <div class="filtros">
+    <div class="campo">
+      <label for="filtro-usuario">Usuario</label>
+      <select
+        id="filtro-usuario"
+        [ngModel]="usuarioId()"
+        (ngModelChange)="usuarioId.set($event)"
+      >
+        <option value="">Todos los usuarios</option>
+        @for (usuario of usuarios(); track usuario.id) {
+          <option [value]="usuario.id">{{ usuario.nombre }} · {{ usuario.matricula }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="campo">
+      <label for="filtro-desde">Desde</label>
+      <input
+        id="filtro-desde"
+        type="date"
+        [ngModel]="desde()"
+        (ngModelChange)="desde.set($event)"
+      />
+    </div>
+
+    <div class="campo">
+      <label for="filtro-hasta">Hasta</label>
+      <input
+        id="filtro-hasta"
+        type="date"
+        [ngModel]="hasta()"
+        (ngModelChange)="hasta.set($event)"
+      />
+    </div>
+
+    <button type="button" class="boton boton--contorno" (click)="limpiarFiltros()">
+      Limpiar filtros
+    </button>
+  </div>
+
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th scope="col">Usuario</th>
+          <th scope="col">Libro</th>
+          <th scope="col">Prestado</th>
+          <th scope="col">Vence</th>
+          <th scope="col">Devuelto</th>
+          <th scope="col">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (prestamo of historial(); track prestamo.id) {
+          <tr>
+            <td>
+              <strong>{{ prestamo.usuario.nombre }}</strong>
+              <small>{{ prestamo.usuario.matricula }}</small>
+            </td>
+            <td>
+              <strong>{{ prestamo.libro.titulo }}</strong>
+              <small>{{ prestamo.libro.autor }}</small>
+            </td>
+            <td>{{ prestamo.fechaPrestamo }}</td>
+            <td>{{ prestamo.fechaVencimiento }}</td>
+            <td>{{ prestamo.fechaDevolucion ?? '—' }}</td>
+            <td>
+              <span
+                class="etiqueta"
+                [class.etiqueta--celeste]="prestamo.estado === 'ACTIVO'"
+                [class.etiqueta--vencido]="prestamo.estado === 'VENCIDO'"
+              >
+                {{ prestamo.estado }}
+              </span>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="tabla__vacio">No hay préstamos que coincidan con los filtros.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
