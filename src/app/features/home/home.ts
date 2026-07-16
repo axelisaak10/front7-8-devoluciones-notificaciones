@@ -1,12 +1,19 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, ElementRef, HostListener, afterNextRender, computed, inject, signal } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../services/auth';
 import { Sidebar } from '../../components/layouts/sidebar/sidebar';
 import { PrestamosService } from '../prestamos/prestamos.service';
 
+interface EnlaceNav {
+  etiqueta: string;
+  ruta?: string;
+  fragmento?: string;
+  exacto?: boolean;
+}
+
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, Sidebar],
+  imports: [RouterLink, RouterLinkActive, Sidebar],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -14,9 +21,52 @@ export class Home {
   private readonly auth = inject(Auth);
   private readonly router = inject(Router);
   private readonly prestamosService = inject(PrestamosService);
+  private readonly elementoAnfitrion = inject(ElementRef<HTMLElement>);
 
   protected readonly usuario = this.auth.usuario;
   protected readonly menuAbierto = signal(false);
+  protected readonly menuUsuarioAbierto = signal(false);
+  protected readonly navConScroll = signal(false);
+  protected readonly anioActual = new Date().getFullYear();
+
+  protected readonly enlacesNav: EnlaceNav[] = [
+    { etiqueta: 'Inicio', ruta: '/home', exacto: true },
+    { etiqueta: 'Catálogo', ruta: '/catalogo' },
+    { etiqueta: 'Mis Préstamos', fragmento: 'mis-prestamos' },
+    { etiqueta: 'Reservas', ruta: '/mis-reservas' },
+    { etiqueta: 'Historial', fragmento: 'avisos' },
+  ];
+
+  constructor() {
+    // Solo front-end: si no hay sesión activa, regresamos al login.
+    if (!this.auth.estaAutenticado()) {
+      this.router.navigateByUrl('/login');
+    }
+
+    afterNextRender(() => {
+      const actualizarScroll = () => this.navConScroll.set(window.scrollY > 8);
+      actualizarScroll();
+      window.addEventListener('scroll', actualizarScroll, { passive: true });
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  protected alClicFuera(evento: MouseEvent): void {
+    if (!this.menuUsuarioAbierto()) return;
+    if (!this.elementoAnfitrion.nativeElement.querySelector('.panel__chip')?.contains(evento.target as Node)) {
+      this.menuUsuarioAbierto.set(false);
+    }
+  }
+
+  protected alternarMenuUsuario(evento: MouseEvent): void {
+    evento.stopPropagation();
+    this.menuUsuarioAbierto.update((abierto) => !abierto);
+  }
+
+  protected cerrarSesion(): void {
+    this.menuUsuarioAbierto.set(false);
+    this.auth.cerrarSesion();
+  }
 
   protected readonly usuarioBiblioteca = computed(() => {
     const email = this.usuario()?.correo;
@@ -73,13 +123,6 @@ export class Home {
     { titulo: 'Orgullo y Prejuicio', autor: 'Jane Austen', categoria: 'Romance clásico' },
     { titulo: 'Cándido', autor: 'Voltaire', categoria: 'Humor clásico' },
   ];
-
-  constructor() {
-    // Solo front-end: si no hay sesión activa, regresamos al login.
-    if (!this.auth.estaAutenticado()) {
-      this.router.navigateByUrl('/login');
-    }
-  }
 
   alternarMenu(): void {
     this.menuAbierto.update((abierto) => !abierto);
