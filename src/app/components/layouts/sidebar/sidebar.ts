@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../services/auth';
 
 @Component({
@@ -10,7 +10,6 @@ import { Auth } from '../../../services/auth';
 })
 export class Sidebar {
   private readonly auth = inject(Auth);
-  private readonly router = inject(Router);
 
   /** Controlado desde Home mediante el botón hamburguesa. */
   readonly abierto = input(false);
@@ -30,6 +29,5 @@ export class Sidebar {
   cerrarSesion(): void {
     this.cerrar.emit();
     this.auth.cerrarSesion();
-    this.router.navigateByUrl('/');
   }
 }

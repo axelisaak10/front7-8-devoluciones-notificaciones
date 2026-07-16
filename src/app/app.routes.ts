@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './services/auth-guard';
 
 export const routes: Routes = [
   {
@@ -28,15 +29,22 @@ export const routes: Routes = [
       },
       {
         path: 'admin/libros',
+        canActivate: [authGuard],
         loadComponent: () => import('./features/admin/libros/libros').then((m) => m.LibrosAdmin),
         title: 'Biblioteca UTEQ | Gestión de libros',
       },
       {
         path: 'mis-reservas',
+        canActivate: [authGuard],
         loadComponent: () => import('./features/reservas/mis-reservas/mis-reservas').then((m) => m.MisReservas),
         title: 'Biblioteca UTEQ | Mis reservas',
       },
     ],
+  },
+  {
+    path: 'auth/callback',
+    loadComponent: () => import('./features/auth/callback/callback').then((m) => m.AuthCallback),
+    title: 'Biblioteca UTEQ | Autenticando',
   },
   {
     path: 'login',
@@ -50,17 +58,20 @@ export const routes: Routes = [
   },
   {
     path: 'home',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/home/home').then((m) => m.Home),
     title: 'Biblioteca UTEQ | Mi Biblioteca',
   },
   {
     path: 'catalogo',
+    canActivate: [authGuard],
     loadComponent: () => import('./features/catalogo/catalogo').then((m) => m.Catalogo),
     title: 'Biblioteca UTEQ | Catálogo',
   },
   {
     // Panel del bibliotecario (EPIC05 préstamos + EPIC06 devoluciones)
     path: 'bibliotecario',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./features/prestamos/panel-prestamos/panel-prestamos').then(
         (m) => m.PanelPrestamos,

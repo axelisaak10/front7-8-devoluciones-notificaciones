@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, output } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../services/auth';
 
 @Component({
@@ -10,7 +10,6 @@ import { Auth } from '../../../services/auth';
 })
 export class PrestamosSidebar {
   private readonly auth = inject(Auth);
-  private readonly router = inject(Router);
 
   readonly abierto = input(false);
   readonly cerrar = output<void>();
@@ -29,6 +28,5 @@ export class PrestamosSidebar {
   cerrarSesion(): void {
     this.cerrar.emit();
     this.auth.cerrarSesion();
-    this.router.navigateByUrl('/');
   }
 }
