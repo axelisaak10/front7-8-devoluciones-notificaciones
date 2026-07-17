@@ -135,7 +135,7 @@ export class PrestamosService {
   private readonly http = inject(HttpClient);
   private readonly catalogoService = inject(CatalogoService);
   private readonly usuariosAdminService = inject(UsuariosAdminService);
-  private readonly API_URL = 'http://localhost:8080/api/v1';
+  private readonly API_URL = 'http://localhost:8088/api/v1';
 
   private readonly _usuarios = signal<UsuarioBiblioteca[]>([]);
   private readonly _libros = signal<LibroCatalogo[]>([]);

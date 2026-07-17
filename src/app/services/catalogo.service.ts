@@ -25,7 +25,7 @@ export interface LibroForm {
 @Injectable({ providedIn: 'root' })
 export class CatalogoService {
   private readonly http = inject(HttpClient);
-  private readonly API_URL = 'http://localhost:8080/api/catalogo';
+  private readonly API_URL = 'http://localhost:8088/api/catalogo';
 
   listar(busqueda?: string, categoria?: string): Observable<Libro[]> {
     let params = new HttpParams();

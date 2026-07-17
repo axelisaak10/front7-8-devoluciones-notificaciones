@@ -7,7 +7,7 @@ interface TokenResponse { access_token: string; refresh_token?: string; id_token
 @Injectable({ providedIn: 'root' })
 export class Auth {
   private readonly platformId = inject(PLATFORM_ID);
-  private readonly gateway = 'http://localhost:8080';
+  private readonly gateway = 'http://localhost:8088';
   private readonly clientId = 'bibliouteq-spa';
   private readonly redirectUri = 'http://localhost:4200/auth/callback';
   private readonly _usuario = signal<Usuario | null>(this.leerUsuario());
