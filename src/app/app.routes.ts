@@ -35,18 +35,18 @@ export const routes: Routes = [
         title: 'Biblioteca UTEQ | Gestion de usuarios',
       },
       {
-        path: 'admin/libros',
-        canActivate: [authGuard],
-        loadComponent: () => import('./features/admin/libros/libros').then((m) => m.LibrosAdmin),
-        title: 'Biblioteca UTEQ | Gestión de libros',
-      },
-      {
         path: 'admin/estadisticas',
         canActivate: [adminGuard],
         loadComponent: () => import('./features/admin/estadisticas/estadisticas').then((m) => m.EstadisticasAdmin),
         title: 'Biblioteca UTEQ | Estadisticas',
       },
     ],
+  },
+  {
+    path: 'admin/libros',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/admin/libros/libros').then((m) => m.LibrosAdmin),
+    title: 'Biblioteca UTEQ | Gestión de libros',
   },
   {
     path: 'auth/callback',

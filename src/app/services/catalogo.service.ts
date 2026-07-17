@@ -11,7 +11,7 @@ export interface Libro {
   stock: number;
   stockReservado: number;
   activo: boolean;
-  tienePortada: boolean;
+  portadaUrl: string | null;
 }
 
 export interface LibroForm {
@@ -20,6 +20,7 @@ export interface LibroForm {
   autor: string;
   categoria: string;
   stock: number;
+  portadaUrl: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -52,16 +53,5 @@ export class CatalogoService {
 
   eliminar(id: string): Observable<void> {
     return this.http.delete<void>(`${this.API_URL}/${id}`);
-  }
-
-  /** Solo acepta PNG; el backend valida la firma binaria del archivo. */
-  subirPortada(id: string, archivo: File): Observable<Libro> {
-    const formData = new FormData();
-    formData.append('archivo', archivo);
-    return this.http.post<Libro>(`${this.API_URL}/${id}/portada`, formData);
-  }
-
-  portadaUrl(id: string): string {
-    return `${this.API_URL}/${id}/portada`;
   }
 }
