@@ -87,6 +87,29 @@
           }
         </ul>
       }
+
+      @if (usuarioSeleccionado() && reservasPendientes().length > 0 && !libroId()) {
+        <div class="campo">
+          <label>Reservas pendientes de este usuario</label>
+          <ul class="lista-seleccionable">
+            @for (reserva of reservasPendientes(); track reserva.id) {
+              <li>
+                <button
+                  type="button"
+                  (click)="seleccionarReserva(reserva.id, reserva.libroId)"
+                  [disabled]="!reserva.libro"
+                >
+                  <div>
+                    <strong>{{ reserva.libro?.titulo ?? 'Libro no disponible' }}</strong>
+                    <small>Reservado hasta {{ reserva.fechaExpiracion }}</small>
+                  </div>
+                  <span class="pastilla pastilla--alerta">Convertir en préstamo</span>
+                </button>
+              </li>
+            }
+          </ul>
+        </div>
+      }
     </div>
 
     <!-- Libro -->
@@ -116,9 +139,13 @@
             <strong>{{ libro.titulo }}</strong>
             <small>{{ libro.autor }}</small>
           </div>
-          <span class="etiqueta" [class.etiqueta--celeste]="libro.ejemplaresDisponibles > 0">
-            {{ libro.ejemplaresDisponibles }} disponibles
-          </span>
+          @if (reservaId()) {
+            <span class="etiqueta etiqueta--celeste">Desde reserva</span>
+          } @else {
+            <span class="etiqueta" [class.etiqueta--celeste]="libro.ejemplaresDisponibles > 0">
+              {{ libro.ejemplaresDisponibles }} disponibles
+            </span>
+          }
         </div>
       } @else {
         <ul class="lista-seleccionable">

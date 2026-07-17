@@ -369,8 +369,17 @@ export class PrestamosService {
     });
   }
 
-  /** PR01 — Registra un préstamo solo si el usuario está ACTIVO, sin sanciones y hay ejemplares disponibles. */
-  registrarPrestamo(usuarioId: string, libroId: string, diasPlazo = 7): Observable<ResultadoRegistro> {
+  /**
+   * PR01 — Registra un préstamo solo si el usuario está ACTIVO, sin sanciones y hay ejemplares
+   * disponibles. Si `reservaId` viene informado, el préstamo convierte esa reserva (el ejemplar
+   * ya estaba apartado, así que la disponibilidad visible del libro no vuelve a descontarse).
+   */
+  registrarPrestamo(
+    usuarioId: string,
+    libroId: string,
+    diasPlazo = 7,
+    reservaId?: string,
+  ): Observable<ResultadoRegistro> {
     const usuario = this._usuarios().find((u) => u.id === usuarioId);
     const libro = this._libros().find((l) => l.id === libroId);
 
@@ -386,18 +395,26 @@ export class PrestamosService {
     if (usuario.sancionesPendientes > 0) {
       return of({ ok: false, mensaje: `${usuario.nombre} tiene sanciones pendientes por resolver.` });
     }
-    if (libro.ejemplaresDisponibles <= 0) {
+    if (!reservaId && libro.ejemplaresDisponibles <= 0) {
       return of({ ok: false, mensaje: `No hay ejemplares disponibles de "${libro.titulo}".` });
     }
 
     const fechaLimite = new Date(Date.now() + diasPlazo * DIA_MS).toISOString();
-    const payload = { usuarioId, libroId, fechaLimite };
+    const payload = { usuarioId, libroId, fechaLimite, reservaId: reservaId ?? null };
 
     return this.http.post<any>(`${this.API_URL}/prestamos`, payload).pipe(
       map((data) => {
         const prestamo = this.mapPrestamo(data);
         this._prestamos.update((lista) => [prestamo, ...lista]);
-        this.ajustarDisponibilidad(libroId, -1);
+
+        if (reservaId) {
+          this._reservas.update((lista) =>
+            lista.map((r) => (r.id === reservaId ? { ...r, estado: 'CONVERTIDA' } : r)),
+          );
+        } else {
+          this.ajustarDisponibilidad(libroId, -1);
+        }
+
         return { ok: true, mensaje: `Préstamo registrado para ${usuario.nombre}.`, prestamo };
       }),
       catchError((err) =>
