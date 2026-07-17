@@ -64,6 +64,12 @@ export const routes: Routes = [
     title: 'Biblioteca UTEQ | Mi Biblioteca',
   },
   {
+    path: 'perfil',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/perfil/perfil').then((m) => m.Perfil),
+    title: 'Biblioteca UTEQ | Mi perfil',
+  },
+  {
     path: 'catalogo',
     canActivate: [authGuard],
     loadComponent: () => import('./features/catalogo/catalogo').then((m) => m.Catalogo),

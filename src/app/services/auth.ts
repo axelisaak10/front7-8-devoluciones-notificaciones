@@ -69,6 +69,14 @@ export class Auth {
     return raw ? (JSON.parse(raw) as TokenResponse).access_token : null;
   }
 
+  actualizarUsuario(nombre: string, correo: string): void {
+    const actual = this._usuario();
+    if (!actual || !this.esNavegador()) return;
+    const actualizado = { ...actual, nombre, correo };
+    sessionStorage.setItem('oauth_usuario', JSON.stringify(actualizado));
+    this._usuario.set(actualizado);
+  }
+
   cerrarSesion(): void {
     let idToken: string | undefined;
     if (this.esNavegador()) {
