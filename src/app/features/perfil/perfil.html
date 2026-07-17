@@ -1,0 +1,35 @@
+<div class="panel">
+  <app-panel-header [menuAbierto]="menuAbierto()" (alternarMenu)="alternarMenu()" />
+  <app-sidebar [abierto]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
+
+  <main class="contenedor panel__contenido perfil">
+    <header><p>Mi cuenta</p><h1>Perfil de usuario</h1><span>Actualiza tus datos personales y credenciales.</span></header>
+    @if (error()) { <div class="mensaje mensaje--error" role="alert">{{ error() }}</div> }
+    @if (exito()) { <div class="mensaje mensaje--exito" role="status">{{ exito() }}</div> }
+
+    @if (cargando()) {
+      <p>Cargando perfil...</p>
+    } @else {
+      <form (ngSubmit)="guardar()">
+        <label>Nombre completo
+          <input name="nombreCompleto" [(ngModel)]="formulario.nombreCompleto" maxlength="150" required />
+        </label>
+        <label>Correo electronico
+          <input name="email" type="email" [(ngModel)]="formulario.email" maxlength="150" required />
+        </label>
+        <fieldset>
+          <legend>Cambiar contrasena</legend>
+          <p>Deja ambos campos vacios para conservar tu contrasena actual.</p>
+          <label>Nueva contrasena
+            <input name="password" type="password" [(ngModel)]="formulario.password" minlength="8" maxlength="100" />
+          </label>
+          <label>Confirmar contrasena
+            <input name="confirmarPassword" type="password" [(ngModel)]="confirmarPassword" minlength="8" maxlength="100" />
+          </label>
+        </fieldset>
+        <button type="submit" [disabled]="guardando()">{{ guardando() ? 'Guardando...' : 'Guardar cambios' }}</button>
+      </form>
+    }
+  </main>
+  <app-panel-footer />
+</div>

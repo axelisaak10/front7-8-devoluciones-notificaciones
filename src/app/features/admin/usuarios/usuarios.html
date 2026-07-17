@@ -27,17 +27,24 @@
     <p>Cargando usuarios...</p>
   } @else {
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Registro</th><th>Acciones</th></tr></thead>
+      <thead><tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Registro</th><th>Acciones</th></tr></thead>
       <tbody>
         @for (usuario of usuarios(); track usuario.id) {
           <tr>
             <td>{{ usuario.nombreCompleto }}</td><td>{{ usuario.email }}</td>
             <td><span class="rol">{{ usuario.rol }}</span></td>
+            <td><span class="estado" [class.estado--inactivo]="!usuario.activo">{{ usuario.activo ? 'Activo' : 'Inactivo' }}</span></td>
             <td>{{ usuario.fechaRegistro ? (usuario.fechaRegistro | slice:0:10) : '—' }}</td>
-            <td class="acciones"><button class="editar" type="button" (click)="editar(usuario)">Editar</button>
-              <button class="eliminar" type="button" (click)="eliminar(usuario)">Desactivar</button></td>
+            <td class="acciones">
+              @if (usuario.activo) {
+                <button class="editar" type="button" (click)="editar(usuario)">Editar</button>
+                <button class="eliminar" type="button" (click)="desactivar(usuario)">Desactivar</button>
+              } @else {
+                <button class="reactivar" type="button" (click)="reactivar(usuario)">Reactivar</button>
+              }
+            </td>
           </tr>
-        } @empty { <tr><td colspan="5">No hay usuarios activos.</td></tr> }
+        } @empty { <tr><td colspan="6">No hay usuarios registrados.</td></tr> }
       </tbody>
     </table></div>
   }

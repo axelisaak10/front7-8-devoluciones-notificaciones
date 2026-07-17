@@ -29,5 +29,7 @@ export class UsuariosAdminService {
   actualizar(id: string, request: UsuarioAdminRequest): Observable<UsuarioAdmin> {
     return this.http.put<UsuarioAdmin>(`${this.url}/${id}`, request);
   }
-  eliminar(id: string): Observable<void> { return this.http.delete<void>(`${this.url}/${id}`); }
+  cambiarEstado(id: string, activo: boolean): Observable<UsuarioAdmin> {
+    return this.http.patch<UsuarioAdmin>(`${this.url}/${id}/status`, { activo });
+  }
 }

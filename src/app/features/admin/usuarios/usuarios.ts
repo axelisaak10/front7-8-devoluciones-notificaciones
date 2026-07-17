@@ -68,12 +68,22 @@ export class UsuariosAdminComponent implements OnInit {
     finally { this.guardando.set(false); }
   }
 
-  protected async eliminar(usuario: UsuarioAdmin): Promise<void> {
+  protected async desactivar(usuario: UsuarioAdmin): Promise<void> {
     if (!confirm(`¿Desactivar a ${usuario.nombreCompleto}?`)) return;
     this.limpiarMensajes();
     try {
-      await firstValueFrom(this.service.eliminar(usuario.id));
+      await firstValueFrom(this.service.cambiarEstado(usuario.id, false));
       this.exito.set('Usuario desactivado correctamente.');
+      await this.cargar(false);
+    } catch (error) { this.error.set(this.mensajeError(error)); }
+  }
+
+  protected async reactivar(usuario: UsuarioAdmin): Promise<void> {
+    if (!confirm(`\u00bfReactivar a ${usuario.nombreCompleto}?`)) return;
+    this.limpiarMensajes();
+    try {
+      await firstValueFrom(this.service.cambiarEstado(usuario.id, true));
+      this.exito.set('Usuario reactivado correctamente.');
       await this.cargar(false);
     } catch (error) { this.error.set(this.mensajeError(error)); }
   }

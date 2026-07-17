@@ -1,0 +1,11 @@
+.perfil { max-width: 760px; display:grid; gap:1.25rem; }
+.perfil header p { color:var(--azul-600); font-size:.8rem; font-weight:700; text-transform:uppercase; }
+.perfil header span { color:var(--texto-suave); }
+.perfil form { display:grid; gap:1rem; padding:1.5rem; border:1px solid var(--borde); border-radius:1rem; background:white; box-shadow:var(--sombra-sm); }
+.perfil label { display:grid; gap:.4rem; font-weight:650; }
+.perfil input { padding:.8rem; border:1px solid var(--borde); border-radius:.65rem; font:inherit; }
+.perfil fieldset { display:grid; gap:1rem; padding:1rem; border:1px solid var(--borde); border-radius:.75rem; }
+.perfil legend { padding:0 .4rem; font-weight:700; }.perfil fieldset p { color:var(--texto-suave); font-size:.9rem; }
+.perfil button { justify-self:start; padding:.75rem 1rem; border-radius:.65rem; background:var(--azul-700); color:white; font-weight:700; }
+.perfil button:disabled { opacity:.6; }.mensaje { padding:.8rem 1rem; border-radius:.7rem; }
+.mensaje--error { background:var(--rojo-50); color:var(--rojo-600); }.mensaje--exito { background:#ecfdf3; color:#067647; }
