@@ -1,16 +1,20 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CatalogoService, Libro, LibroForm } from '../../../services/catalogo.service';
+import { Sidebar } from '../../../components/layouts/sidebar/sidebar';
+import { PanelHeader } from '../../../components/layouts/panel-header/panel-header';
+import { PanelFooter } from '../../../components/layouts/panel-footer/panel-footer';
 
 @Component({
   selector: 'app-libros-admin',
-  imports: [FormsModule],
+  imports: [FormsModule, Sidebar, PanelHeader, PanelFooter],
   templateUrl: './libros.html',
   styleUrl: './libros.scss',
 })
 export class LibrosAdmin {
   private readonly catalogoService = inject(CatalogoService);
 
+  protected readonly menuAbierto = signal(false);
   protected readonly libros = signal<Libro[]>([]);
   protected readonly cargando = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -24,43 +28,27 @@ export class LibrosAdmin {
     autor: '',
     categoria: '',
     stock: 1,
+    portadaUrl: '',
   };
-
-  private portadaSeleccionada: File | null = null;
 
   constructor() {
     this.cargarLibros();
+  }
+
+  protected alternarMenu(): void {
+    this.menuAbierto.update((abierto) => !abierto);
   }
 
   protected disponible(libro: Libro): boolean {
     return libro.activo && libro.stock - libro.stockReservado > 0;
   }
 
-  protected portadaUrl(libro: Libro): string | null {
-    return libro.tienePortada ? this.catalogoService.portadaUrl(libro.id) : null;
-  }
-
-  protected onPortadaSeleccionada(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const archivo = input.files?.[0] ?? null;
-
-    if (archivo && archivo.type !== 'image/png') {
-      this.error.set('La portada debe ser un archivo PNG.');
-      input.value = '';
-      this.portadaSeleccionada = null;
-      return;
-    }
-
-    this.portadaSeleccionada = archivo;
-  }
-
   protected abrirFormulario(nuevo: boolean = false): void {
     if (nuevo) {
       this.libroSeleccionado.set(null);
-      this.formulario = { titulo: '', isbn: '', autor: '', categoria: '', stock: 1 };
+      this.formulario = { titulo: '', isbn: '', autor: '', categoria: '', stock: 1, portadaUrl: '' };
     }
 
-    this.portadaSeleccionada = null;
     this.error.set(null);
     this.modo.set('form');
   }
@@ -73,48 +61,40 @@ export class LibrosAdmin {
       autor: libro.autor,
       categoria: libro.categoria,
       stock: libro.stock,
+      portadaUrl: libro.portadaUrl ?? '',
     };
-    this.portadaSeleccionada = null;
     this.error.set(null);
     this.modo.set('form');
   }
 
   protected guardarLibro(): void {
-    const { titulo, isbn, autor, categoria, stock } = this.formulario;
+    const { titulo, isbn, autor, categoria, stock, portadaUrl } = this.formulario;
 
     if (!titulo.trim() || !isbn.trim() || !autor.trim() || !categoria.trim()) {
       return;
     }
 
     const actual = this.libroSeleccionado();
-    const payload: LibroForm = { titulo, isbn, autor, categoria, stock };
+    const payload: LibroForm = {
+      titulo,
+      isbn,
+      autor,
+      categoria,
+      stock,
+      portadaUrl: portadaUrl?.trim() || null,
+    };
 
     const peticion = actual
       ? this.catalogoService.actualizar(actual.id, payload)
       : this.catalogoService.crear(payload);
 
     peticion.subscribe({
-      next: (libro) => this.subirPortadaSiHay(libro.id),
-      error: (err) => {
-        this.error.set(err.error?.error ?? 'No se pudo guardar el libro.');
-      },
-    });
-  }
-
-  private subirPortadaSiHay(libroId: string): void {
-    if (!this.portadaSeleccionada) {
-      this.cargarLibros();
-      this.volverALista();
-      return;
-    }
-
-    this.catalogoService.subirPortada(libroId, this.portadaSeleccionada).subscribe({
       next: () => {
         this.cargarLibros();
         this.volverALista();
       },
       error: (err) => {
-        this.error.set(err.error?.error ?? 'El libro se guardó, pero no se pudo subir la portada.');
+        this.error.set(err.error?.error ?? 'No se pudo guardar el libro.');
       },
     });
   }

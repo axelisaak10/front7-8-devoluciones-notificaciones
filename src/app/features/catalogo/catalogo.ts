@@ -44,7 +44,7 @@ export class Catalogo {
       )
       .map((libro) => ({
         ...libro,
-        portada: libro.tienePortada ? this.catalogoService.portadaUrl(libro.id) : '',
+        portada: libro.portadaUrl ?? '',
         ejemplaresDisponibles: libro.stock - libro.stockReservado,
       }));
   });

@@ -170,7 +170,7 @@ export class PrestamosService {
       titulo: libro.titulo,
       autor: libro.autor,
       categoria: libro.categoria,
-      portada: libro.tienePortada ? this.catalogoService.portadaUrl(libro.id) : '',
+      portada: libro.portadaUrl ?? '',
       ejemplaresDisponibles: libro.stock - libro.stockReservado,
     };
   }

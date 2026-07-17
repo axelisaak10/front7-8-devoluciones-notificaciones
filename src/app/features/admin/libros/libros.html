@@ -1,4 +1,10 @@
-<section class="admin-libros">
+<div class="panel">
+  <app-panel-header [menuAbierto]="menuAbierto()" (alternarMenu)="alternarMenu()" />
+
+  <app-sidebar [abierto]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
+
+  <main class="contenedor panel__contenido">
+  <section class="admin-libros">
   <header class="admin-libros__encabezado">
     <div>
       <p class="admin-libros__eyebrow">Panel de administración</p>
@@ -32,8 +38,8 @@
           @for (libro of libros(); track libro.id) {
             <tr>
               <td>
-                @if (portadaUrl(libro); as url) {
-                  <img class="admin-libros__miniatura" [src]="url" [alt]="'Portada de ' + libro.titulo" />
+                @if (libro.portadaUrl) {
+                  <img class="admin-libros__miniatura" [src]="libro.portadaUrl" [alt]="'Portada de ' + libro.titulo" />
                 } @else {
                   <span class="admin-libros__miniatura admin-libros__miniatura--vacia">—</span>
                 }
@@ -84,13 +90,17 @@
         <input id="stock" name="stock" type="number" min="0" [(ngModel)]="formulario.stock" required />
       </div>
       <div class="admin-libros__grupo">
-        <label for="portada">Portada (PNG)</label>
-        @if (libroSeleccionado(); as actual) {
-          @if (portadaUrl(actual); as url) {
-            <img class="admin-libros__miniatura admin-libros__miniatura--previa" [src]="url" alt="Portada actual" />
-          }
+        <label for="portadaUrl">URL de la portada</label>
+        @if (formulario.portadaUrl) {
+          <img class="admin-libros__miniatura admin-libros__miniatura--previa" [src]="formulario.portadaUrl" alt="Vista previa de la portada" />
         }
-        <input id="portada" name="portada" type="file" accept="image/png" (change)="onPortadaSeleccionada($event)" />
+        <input
+          id="portadaUrl"
+          name="portadaUrl"
+          type="url"
+          placeholder="https://ejemplo.com/imagen.jpg"
+          [(ngModel)]="formulario.portadaUrl"
+        />
       </div>
 
       <div class="admin-libros__botones">
@@ -101,4 +111,8 @@
       </div>
     </form>
   }
-</section>
+  </section>
+  </main>
+
+  <app-panel-footer />
+</div>
