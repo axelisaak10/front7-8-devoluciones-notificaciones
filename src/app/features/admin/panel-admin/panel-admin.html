@@ -1,0 +1,11 @@
+<div class="panel">
+  <app-panel-header [menuAbierto]="menuAbierto()" (alternarMenu)="alternarMenu()" />
+
+  <app-admin-sidebar [abierto]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
+
+  <main class="contenedor panel__contenido">
+    <router-outlet />
+  </main>
+
+  <app-panel-footer />
+</div>

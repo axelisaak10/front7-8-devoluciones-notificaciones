@@ -1,7 +1,7 @@
 <div class="inicio aparecer">
   <header class="inicio__cabecera">
     <h1>Panel de bibliotecario</h1>
-    <p>Elige qué quieres hacer: administrar préstamos o registrar devoluciones.</p>
+    <p>Elige qué quieres hacer: gestionar el inventario, préstamos, devoluciones o sanciones.</p>
   </header>
 
   @for (grupo of grupos; track grupo.titulo) {
@@ -36,6 +36,14 @@
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                     stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 6L9 17l-5-5" />
+                  </svg>
+                }
+                @case ('libro') {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    <path d="M9 7h6M9 11h4" />
                   </svg>
                 }
               }

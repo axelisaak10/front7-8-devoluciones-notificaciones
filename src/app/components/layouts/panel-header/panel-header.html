@@ -29,7 +29,7 @@
 
     <nav class="panel__nav" aria-label="Navegación principal">
       <ul class="panel__nav-lista">
-        @for (enlace of enlacesNav; track enlace.etiqueta) {
+        @for (enlace of enlacesNav(); track enlace.etiqueta) {
           <li>
             <a
               class="panel__nav-enlace"

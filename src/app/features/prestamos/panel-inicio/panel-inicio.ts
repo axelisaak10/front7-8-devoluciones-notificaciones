@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-type Icono = 'mas' | 'usuario' | 'reloj' | 'check';
+type Icono = 'mas' | 'usuario' | 'reloj' | 'check' | 'libro';
 
 interface AccesoRapido {
   ruta: string;
@@ -23,6 +23,17 @@ interface GrupoAccesos {
 })
 export class PanelInicio {
   protected readonly grupos: GrupoAccesos[] = [
+    {
+      titulo: 'Inventario',
+      accesos: [
+        {
+          ruta: '/bibliotecario/libros',
+          titulo: 'Inventario de libros',
+          descripcion: 'Lista, registra, edita o elimina libros y consulta el stock disponible.',
+          icono: 'libro',
+        },
+      ],
+    },
     {
       titulo: 'Préstamos',
       accesos: [

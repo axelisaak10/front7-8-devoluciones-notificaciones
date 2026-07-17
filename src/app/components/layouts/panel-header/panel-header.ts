@@ -30,13 +30,29 @@ export class PanelHeader {
   protected readonly menuUsuarioAbierto = signal(false);
   protected readonly navConScroll = signal(false);
 
-  protected readonly enlacesNav: EnlaceNav[] = [
-    { etiqueta: 'Inicio', ruta: '/home', exacto: true },
-    { etiqueta: 'Catálogo', ruta: '/catalogo' },
-    { etiqueta: 'Mis Préstamos', ruta: '/mis-prestamos' },
-    { etiqueta: 'Reservas', ruta: '/mis-reservas' },
-    { etiqueta: 'Historial', ruta: '/historial' },
-  ];
+  protected readonly enlacesNav = computed<EnlaceNav[]>(() => {
+    if (this.auth.tieneRol('ADMINISTRADOR')) {
+      return [
+        { etiqueta: 'Estadísticas', ruta: '/admin/estadisticas', exacto: true },
+        { etiqueta: 'Usuarios', ruta: '/admin/usuarios' },
+      ];
+    }
+    if (this.auth.tieneRol('INSTRUCTOR')) {
+      return [
+        { etiqueta: 'Inicio', ruta: '/bibliotecario', exacto: true },
+        { etiqueta: 'Inventario', ruta: '/bibliotecario/libros' },
+        { etiqueta: 'Préstamos', ruta: '/bibliotecario/prestamos/activos' },
+        { etiqueta: 'Devoluciones', ruta: '/bibliotecario/devoluciones/registrar' },
+      ];
+    }
+    return [
+      { etiqueta: 'Inicio', ruta: '/home', exacto: true },
+      { etiqueta: 'Catálogo', ruta: '/catalogo' },
+      { etiqueta: 'Mis Préstamos', ruta: '/mis-prestamos' },
+      { etiqueta: 'Reservas', ruta: '/mis-reservas' },
+      { etiqueta: 'Historial', ruta: '/historial' },
+    ];
+  });
 
   protected readonly iniciales = computed(() => {
     const nombre = this.usuario()?.nombre ?? 'Invitado';

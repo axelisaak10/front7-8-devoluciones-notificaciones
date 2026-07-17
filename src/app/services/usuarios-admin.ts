@@ -21,7 +21,7 @@ export interface UsuarioAdminRequest {
 @Injectable({ providedIn: 'root' })
 export class UsuariosAdminService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:8088/api/v1/users';
+  private readonly url = 'http://localhost:8088/api/users';
   listar(): Observable<UsuarioAdmin[]> { return this.http.get<UsuarioAdmin[]>(this.url); }
   crear(request: UsuarioAdminRequest): Observable<UsuarioAdmin> {
     return this.http.post<UsuarioAdmin>(this.url, request);

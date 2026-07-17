@@ -3,24 +3,21 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Auth } from '../../../services/auth';
 
 @Component({
-  selector: 'app-sidebar',
+  selector: 'app-admin-sidebar',
   imports: [RouterLink, RouterLinkActive],
-  templateUrl: './sidebar.html',
-  styleUrl: './sidebar.scss',
+  templateUrl: './admin-sidebar.html',
+  styleUrl: './admin-sidebar.scss',
 })
-export class Sidebar {
+export class AdminSidebar {
   private readonly auth = inject(Auth);
 
-  /** Controlado desde Home mediante el botón hamburguesa. */
   readonly abierto = input(false);
   readonly cerrar = output<void>();
 
   protected readonly usuario = this.auth.usuario;
-  protected readonly esAdministrador = computed(() => this.auth.tieneRol('ADMINISTRADOR'));
-  protected readonly esBibliotecario = computed(() => this.auth.tieneRol('INSTRUCTOR'));
 
   protected readonly iniciales = computed(() => {
-    const nombre = this.usuario()?.nombre ?? 'Invitado';
+    const nombre = this.usuario()?.nombre ?? 'Administrador';
     return nombre
       .split(' ')
       .slice(0, 2)

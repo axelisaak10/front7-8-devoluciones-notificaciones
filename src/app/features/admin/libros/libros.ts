@@ -1,20 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CatalogoService, Libro, LibroForm } from '../../../services/catalogo.service';
-import { Sidebar } from '../../../components/layouts/sidebar/sidebar';
-import { PanelHeader } from '../../../components/layouts/panel-header/panel-header';
-import { PanelFooter } from '../../../components/layouts/panel-footer/panel-footer';
 
 @Component({
   selector: 'app-libros-admin',
-  imports: [FormsModule, Sidebar, PanelHeader, PanelFooter],
+  imports: [FormsModule],
   templateUrl: './libros.html',
   styleUrl: './libros.scss',
 })
 export class LibrosAdmin {
   private readonly catalogoService = inject(CatalogoService);
 
-  protected readonly menuAbierto = signal(false);
   protected readonly libros = signal<Libro[]>([]);
   protected readonly cargando = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -33,10 +29,6 @@ export class LibrosAdmin {
 
   constructor() {
     this.cargarLibros();
-  }
-
-  protected alternarMenu(): void {
-    this.menuAbierto.update((abierto) => !abierto);
   }
 
   protected disponible(libro: Libro): boolean {

@@ -22,11 +22,19 @@ export class AuthCallback implements OnInit {
     }
     try {
       await this.auth.completarInicioSesion(code, state);
-      const returnUrl = sessionStorage.getItem('oauth_return_url') ?? '/home';
+      const returnUrlSolicitado = sessionStorage.getItem('oauth_return_url');
       sessionStorage.removeItem('oauth_return_url');
+      // Sin destino explicito (login directo, no un rebote de guard): cada rol va a su propia vista.
+      const returnUrl = returnUrlSolicitado || this.vistaSegunRol();
       await this.router.navigateByUrl(returnUrl);
     } catch (error) {
       this.error.set(error instanceof Error ? error.message : 'No fue posible iniciar sesion.');
     }
+  }
+
+  private vistaSegunRol(): string {
+    if (this.auth.tieneRol('ADMINISTRADOR')) return '/admin';
+    if (this.auth.tieneRol('INSTRUCTOR')) return '/bibliotecario';
+    return '/home';
   }
 }

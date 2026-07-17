@@ -19,7 +19,7 @@ export class Login {
     this.error.set('');
     this.cargando.set(true);
     try {
-      await this.auth.iniciarSesion(this.route.snapshot.queryParamMap.get('returnUrl') ?? '/home');
+      await this.auth.iniciarSesion(this.route.snapshot.queryParamMap.get('returnUrl') ?? undefined);
     } catch {
       this.error.set('No fue posible contactar al servidor de autenticacion.');
       this.cargando.set(false);

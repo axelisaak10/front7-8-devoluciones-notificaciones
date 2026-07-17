@@ -15,8 +15,8 @@ describe('LibrosAdmin', () => {
     fixture.detectChanges();
   });
 
-  it('debe mostrar el título de gestión de libros', () => {
+  it('debe mostrar el título de inventario de libros', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Gestión de libros');
+    expect(compiled.textContent).toContain('Inventario de libros');
   });
 });

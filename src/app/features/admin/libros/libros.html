@@ -1,14 +1,8 @@
-<div class="panel">
-  <app-panel-header [menuAbierto]="menuAbierto()" (alternarMenu)="alternarMenu()" />
-
-  <app-sidebar [abierto]="menuAbierto()" (cerrar)="menuAbierto.set(false)" />
-
-  <main class="contenedor panel__contenido">
-  <section class="admin-libros">
+<section class="admin-libros">
   <header class="admin-libros__encabezado">
     <div>
-      <p class="admin-libros__eyebrow">Panel de administración</p>
-      <h2>Gestión de libros</h2>
+      <p class="admin-libros__eyebrow">Panel de bibliotecario</p>
+      <h2>Inventario de libros</h2>
     </div>
     @if (modo() === 'lista') {
       <button type="button" class="admin-libros__boton" (click)="abrirFormulario(true)">
@@ -111,8 +105,4 @@
       </div>
     </form>
   }
-  </section>
-  </main>
-
-  <app-panel-footer />
-</div>
+</section>
