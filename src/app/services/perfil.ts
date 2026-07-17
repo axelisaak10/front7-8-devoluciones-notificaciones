@@ -21,7 +21,7 @@ export interface PerfilUpdateRequest {
 @Injectable({ providedIn: 'root' })
 export class PerfilService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:8080/api/profile';
+  private readonly url = 'http://localhost:8088/api/profile';
 
   obtener(): Observable<PerfilUsuario> {
     return this.http.get<PerfilUsuario>(this.url);

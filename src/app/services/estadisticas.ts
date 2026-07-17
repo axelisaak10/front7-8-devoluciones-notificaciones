@@ -9,7 +9,7 @@ export interface UsuarioMasSancionado { usuarioId: string; totalSanciones: numbe
 @Injectable({ providedIn: 'root' })
 export class EstadisticasService {
   private readonly http = inject(HttpClient);
-  private readonly url = 'http://localhost:8080/api/estadisticas';
+  private readonly url = 'http://localhost:8088/api/estadisticas';
   prestamosPeriodo(fechaInicio: string, fechaFin: string): Observable<PrestamosPeriodo> {
     const params = new HttpParams().set('fechaInicio', fechaInicio).set('fechaFin', fechaFin);
     return this.http.get<PrestamosPeriodo>(`${this.url}/prestamos-periodo`, { params });
